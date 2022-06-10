@@ -62,4 +62,5 @@ runs:
         git add .
         git commit -m "${{ inputs.commit-message }}"
         git push origin ${{ inputs.branch }}
+      working-directory: ${{ inputs.publish-path }}
       shell: bash
