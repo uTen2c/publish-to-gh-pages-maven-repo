@@ -60,7 +60,7 @@ runs:
       run: |
         git remote set-url origin https://${{ inputs.token-user }}:${{ inputs.token }}@github.com/${{ inputs.repo }}.git
         git add .
-        git commit -m ${{ inputs.commit-message }}
+        git commit -m "${{ inputs.commit-message }}"
         git push origin ${{ inputs.branch }}
       working-directory: ${{ inputs.publish-path }}
       shell: bash
