@@ -26,11 +26,11 @@ inputs:
   commit-user-name:
     description: Commit user name
     required: false
-    default: github-actions[bot]
+    default: ${{ github.actor }}
   commit-user-email:
     description: Commit user email
     required: false
-    default: 41898282+github-actions[bot]@users.noreply.github.com
+    default: ${{ github.actor }}@users.noreply.github.com
   commit-message:
     description: Commit message
     required: false
