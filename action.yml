@@ -34,7 +34,7 @@ inputs:
   commit-message:
     description: Commit message
     required: false
-    default: ${{ github.repository }}@${{ github.sha }}
+    default: update ${{ github.repository }}
 runs:
   using: "composite"
   steps:
@@ -60,7 +60,7 @@ runs:
       run: |
         git remote set-url origin https://${{ inputs.token-user }}:${{ inputs.token }}@github.com/${{ inputs.repo }}.git
         git add .
-        git commit -m "${{ inputs.commit-message }}"
+        git commit -m ${{ inputs.commit-message }}
         git push origin ${{ inputs.branch }}
       working-directory: ${{ inputs.publish-path }}
       shell: bash
