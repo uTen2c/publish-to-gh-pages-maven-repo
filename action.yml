@@ -1,6 +1,6 @@
-name: Publish to GitHub pages maven repository
+name: Publish to GitHub
 author: uTen2c
-description: Publish to a Maven repository hosted on GitHub pages.
+description: Publish to GitHub repository.
 inputs:
   publish-path:
     description: Set to $PUBLISH_PATH
