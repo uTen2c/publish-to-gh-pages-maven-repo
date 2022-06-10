@@ -1,0 +1,65 @@
+name: Publish to GitHub pages maven repository
+author: uTen2c
+description: Publish to a Maven repository hosted on GitHub pages.
+inputs:
+  publish-path:
+    description: Set to $PUBLISH_PATH
+    required: false
+    default: build/repo
+  publish-task:
+    description: Gradle publishling task name
+    required: false
+    default: publish
+  token-user:
+    description: Token user
+    required: true
+  token:
+    description: Personal access token
+    required: true
+  repo:
+    description: Target repository
+    required: true
+  branch:
+    description: Target repository branch
+    required: false
+    default: main
+  commit-user-name:
+    description: Commit user name
+    required: false
+    default: github-actions[bot]
+  commit-user-email:
+    description: Commit user email
+    required: false
+    default: 41898282+github-actions[bot]@users.noreply.github.com
+  commit-message:
+    description: Commit message
+    required: false
+    default: ${{ github.repository }}@${{ github.sha }}
+runs:
+  using: "composite"
+  steps:
+    - id: set-env
+      run: echo "PUBLISH_PATH=${{ inputs.publish-path }}" >> $GITHUB_ENV
+      shell: bash
+    - id: set-git-config
+      run: |
+        git config --global user.name ${{ inputs.commit-user-name }}
+        git config --global user.email ${{ inputs.commit-user-email }}
+      shell: bash
+    - id: clone-repository
+      run: git clone -b ${{ inputs.branch }} https://github.com/${{ inputs.repo }} ${{ inputs.publish-path }}
+      shell: bash
+    - uses: gradle/wrapper-validation-action@v1
+    - id: grant-permission-to-gradlew
+      run: chmod +x ./gradlew
+      shell: bash
+    - id: publish
+      run: ./gradlew ${{ inputs.publish-task }} --stacktrace
+      shell: bash
+    - id: push-maven-repository
+      run: |
+        git remote set-url origin https://${{ inputs.token-user }}:${{ inputs.token }}@github.com/${{ inputs.repo }}.git
+        git add .
+        git commit -m "${{ inputs.commit-message }}"
+        git push origin ${{ inputs.branch }}
+      shell: bash
