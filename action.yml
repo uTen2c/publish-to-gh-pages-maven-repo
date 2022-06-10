@@ -7,7 +7,7 @@ inputs:
     required: false
     default: build/repo
   publish-task:
-    description: Gradle publishling task name
+    description: Gradle publishing task name
     required: false
     default: publish
   token-user:
