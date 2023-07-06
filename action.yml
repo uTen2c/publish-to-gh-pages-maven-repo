@@ -47,7 +47,7 @@ runs:
         git config --global user.email ${{ inputs.commit-user-email }}
       shell: bash
     - id: clone-repository
-      run: git clone -b ${{ inputs.branch }} https://${{ inputs.token-user }}:${{ inputs.token }}@github.com/${{ inputs.repo }} ${{ inputs.publish-path }}
+      run: git clone --depth=1 -b ${{ inputs.branch }} https://${{ inputs.token-user }}:${{ inputs.token }}@github.com/${{ inputs.repo }} ${{ inputs.publish-path }}
       shell: bash
     - uses: gradle/wrapper-validation-action@v1
     - id: grant-permission-to-gradlew
